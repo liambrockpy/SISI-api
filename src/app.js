@@ -10,11 +10,6 @@ app.use(cors());
 // test
 app.get('/api', (req, res) => res.status(200).send('Hello World!'));
 
-// Server listening 
-app.listen(port, () => {
-    console.log(`I am listening at http://localhost:${port}`)
-})
-
 app.use('/api/posts', postsRouter)
 
 module.exports = app;
