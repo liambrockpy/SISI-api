@@ -55,11 +55,10 @@ const createComment = async (id, comment) => new Promise(async (res, rej) => {
  */
 const updateEmoji = async (id, emoji) => new Promise(async (res, rej) => {
     const selectedPost = await find(id)
-    //get count (number) of selected emoji
-    let incrementedEmoji = selectedPost.emojis[emoji]++
+    let incrementedEmoji = ++(selectedPost.emojis[emoji])
 
     selectedPost.emojis = {
-        ...emojis,
+        ...selectedPost.emojis,
         [emoji]: incrementedEmoji
     }
     const selectedIndex = postsData.posts.findIndex(post => post.postId === id)

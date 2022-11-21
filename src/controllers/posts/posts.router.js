@@ -16,7 +16,6 @@ postsRouter.get('/', async (req, res) => {
 postsRouter.get('/:id', async (req, res) => {
     try {
         const requestPost = req.params.id;
-        console.log(requestPost)
         const selectedPost = await postsService.find(requestPost);
         if (!selectedPost) {
             res.status(404).send("Item not found")
@@ -48,7 +47,7 @@ postsRouter.post("/", async (req, res) => {
 
 postsRouter.post("/:id/comments", async (req, res) => {
     try {
-        const postId = req.params.postID;
+        const postId = req.params.id;
         const comData = req.body
         const updatedPost = await postsService.createComment(postId, comData)
         res.status(201).send(updatedPost)
@@ -60,9 +59,9 @@ postsRouter.post("/:id/comments", async (req, res) => {
 
 postsRouter.put("/:id/emojis", async (req, res) => {
     try {
-        const postId = req.params.postID;
+        const postId = req.params.id;
         const emojiData = req.body
-        const updatedEmoji = await postsService.updateEmoji(postID, emojiData)
+        const updatedEmoji = await postsService.updateEmoji(postId, emojiData.emoji)
         res.status(201).send(updatedEmoji)
     }
     catch (err) {
