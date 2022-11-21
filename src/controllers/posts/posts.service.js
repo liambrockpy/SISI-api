@@ -13,7 +13,7 @@ const find = async (id) => new Promise((res, rej) => {
 })
 
 const create = async (post) => new Promise((res, rej) => {
-    const postId = uid()
+    const postId = uid.uid()
     const dateNow = dayjs()
 
     const newPost = {
