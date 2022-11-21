@@ -19,9 +19,9 @@ const create = async (post) => new Promise((res, rej) => {
     const newPost = {
         ...post,
         postId,
-        dateNow,
+        date: dateNow,
         comments: null,
-        emoji: {
+        emojis: {
             "like": 0,
             "dislike": 0,
             "surprise": 0
