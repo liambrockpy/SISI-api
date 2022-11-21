@@ -13,19 +13,19 @@ postsRouter.get('/', async (req, res) => {
 
 // Get posts by id
 
-postsRouter.get('/:id', (req, res) => {
+postsRouter.get('/:id', async (req, res) => {
     try {
         const requestPost = req.params.postID;
-        const selectedPost = postsService.find(requestPost);
+        const selectedPost = await postsService.find(requestPost);
         if (!selectedPost) {
-            throw new Error("There is no post with that ID")
+            res.status(404).send("Item not found")
         }
         else {
             res.send(selectedPost);
         }
     }
-        catch (error) {
-            res.status(404).send({message: error.message});
+        catch (err) {
+            res.status(500).send({message: err.message});
         }
     }
 )
@@ -33,27 +33,27 @@ postsRouter.get('/:id', (req, res) => {
 
 // Post a new post
 
-postsRouter.post("/", (req, res) => {
+postsRouter.post("/", async (req, res) => { 
     try {
         const postData = req.body
-        const newPost = postsService.create(postData)
+        const newPost = await postsService.create(postData)
         res.status(201).send(newPost)
-    } catch (error) {
-        res.status(404).send({message: error.message});
+    } catch (err) {
+        res.status(500).send({message: err.message});
     }
 })
 
 // POST COMMENT ON POST 
 // /PostID/COMMENTS
 
-postsRouter.post("/:id/comment", (req, res) => {
+postsRouter.post("/:id/comment", async (req, res) => {
     try {
-        const comData = req.body
-        const newComment = postsService.createComment(comData)
-        res.status(201).send(newComment)
+        const comData = req.params.body
+        const updatedPost = await postsService.createComment(id, comData)
+        res.status(201).send(updatedPost)
     }
-    catch (error) {
-        res.status(404).send({message: error.message});
+    catch (err) {
+        res.status(500).send({message: err.message});
     }
 })
 
