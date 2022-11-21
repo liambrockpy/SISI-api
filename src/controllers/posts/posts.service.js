@@ -36,9 +36,31 @@ const createComment = async (id, comment) => new Promise(async (res, rej) => {
     res(selectedPost)
 })
 
+/**
+ * 
+ * @param {string} id 
+ * @param {'like' | 'dislike' | 'surprise'} emoji 
+ * @returns 
+ */
+
+const updateEmoji = async (id, emoji) => new Promise(async (res, rej) => {
+    const selectedPost = await find(id)
+    //get count (number) of selected emoji
+    let incrementedEmoji = parseInt(selectedPost.emojis[emoji])++
+
+    selectedPost.emojis = {
+        ...emojis,
+        [emoji]: incrementedEmoji
+    }
+    const selectedIndex = postsData.posts.findIndex(post => post.postId === id)
+    postsData.posts.splice(selectedIndex, 1, selectedPost)
+    res(selectedPost)
+})
+
 module.exports = {
     findAll,
     find,
     create,
-    createComment
+    createComment,
+    updateEmoji
 }
