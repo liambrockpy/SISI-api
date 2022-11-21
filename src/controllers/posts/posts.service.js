@@ -21,7 +21,11 @@ const create = async (post) => new Promise((res, rej) => {
         postId,
         dateNow,
         comments: null,
-        emoji: null
+        emoji: {
+            "like": 0,
+            "dislike": 0,
+            "surprise": 0
+        }
     }
 
     postsData.posts.push(newPost)
@@ -30,7 +34,14 @@ const create = async (post) => new Promise((res, rej) => {
 
 const createComment = async (id, comment) => new Promise(async (res, rej) => {
     const selectedPost = await find(id)
-    selectedPost.comments.push(comment)
+
+    let newComment = {
+        ...comment,
+        id: uid.uid(),
+        date: dayjs()
+    }
+
+    selectedPost.comments.push(newComment)
     const selectedIndex = postsData.posts.findIndex(post => post.postId === id)
     postsData.posts.splice(selectedIndex, 1, selectedPost)
     res(selectedPost)
@@ -42,11 +53,10 @@ const createComment = async (id, comment) => new Promise(async (res, rej) => {
  * @param {'like' | 'dislike' | 'surprise'} emoji 
  * @returns 
  */
-
 const updateEmoji = async (id, emoji) => new Promise(async (res, rej) => {
     const selectedPost = await find(id)
     //get count (number) of selected emoji
-    let incrementedEmoji = parseInt(selectedPost.emojis[emoji])++
+    let incrementedEmoji = selectedPost.emojis[emoji]++
 
     selectedPost.emojis = {
         ...emojis,

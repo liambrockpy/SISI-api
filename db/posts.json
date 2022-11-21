@@ -21,9 +21,9 @@
             ],
             "labels": ["food", "cheap", "hidden"],
             "emojis": {
-                "like": "50",
-                "dislike": "2",
-                "surprise": "20"
+                "like": 4,
+                "dislike": 10,
+                "surprise": 20
             }
         }
     ]
