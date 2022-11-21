@@ -8,7 +8,7 @@ const findAll = async () => new Promise((res, rej) => {
 })
 
 const find = async (id) => new Promise((res, rej) => {
-    const selectedPost = postsData.posts.filter(post => post.id === id)[0]
+    const selectedPost = postsData.posts.filter(post => post.postId === id)[0]
     res(selectedPost)
 })
 

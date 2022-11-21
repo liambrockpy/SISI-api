@@ -15,7 +15,8 @@ postsRouter.get('/', async (req, res) => {
 
 postsRouter.get('/:id', async (req, res) => {
     try {
-        const requestPost = req.params.postID;
+        const requestPost = req.params.id;
+        console.log(requestPost)
         const selectedPost = await postsService.find(requestPost);
         if (!selectedPost) {
             res.status(404).send("Item not found")
@@ -24,22 +25,22 @@ postsRouter.get('/:id', async (req, res) => {
             res.send(selectedPost);
         }
     }
-        catch (err) {
-            res.status(500).send({message: err.message});
-        }
+    catch (err) {
+        res.status(500).send({ message: err.message });
     }
+}
 )
 
 
 // Post a new post
 
-postsRouter.post("/", async (req, res) => { 
+postsRouter.post("/", async (req, res) => {
     try {
         const postData = req.body
         const newPost = await postsService.create(postData)
         res.status(201).send(newPost)
     } catch (err) {
-        res.status(500).send({message: err.message});
+        res.status(500).send({ message: err.message });
     }
 })
 
@@ -53,7 +54,7 @@ postsRouter.post("/:id/comments", async (req, res) => {
         res.status(201).send(updatedPost)
     }
     catch (err) {
-        res.status(500).send({message: err.message});
+        res.status(500).send({ message: err.message });
     }
 })
 
@@ -65,9 +66,9 @@ postsRouter.put("/:id/emojis", async (req, res) => {
         res.status(201).send(updatedEmoji)
     }
     catch (err) {
-        res.send(500).send({message: err.message})
+        res.send(500).send({ message: err.message })
     }
 
-    })
+})
 
 module.exports = postsRouter;
