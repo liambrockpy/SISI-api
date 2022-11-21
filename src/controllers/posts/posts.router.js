@@ -43,13 +43,13 @@ postsRouter.post("/", async (req, res) => {
     }
 })
 
-// POST COMMENT ON POST 
-// /PostID/COMMENTS
+// Pos comment
 
-postsRouter.post("/:id/comment", async (req, res) => {
+postsRouter.post("/:id/comments", async (req, res) => {
     try {
-        const comData = req.params.body
-        const updatedPost = await postsService.createComment(id, comData)
+        const postId = req.params.postID;
+        const comData = req.body
+        const updatedPost = await postsService.createComment(postId, comData)
         res.status(201).send(updatedPost)
     }
     catch (err) {
@@ -57,5 +57,17 @@ postsRouter.post("/:id/comment", async (req, res) => {
     }
 })
 
+postsRouter.put("/:id/emojis", async (req, res) => {
+    try {
+        const postId = req.params.postID;
+        const emojiData = req.body
+        const updatedEmoji = await postsService.updateEmoji(postID, emojiData)
+        res.status(201).send(updatedEmoji)
+    }
+    catch (err) {
+        res.send(500).send({message: err.message})
+    }
+
+    })
 
 module.exports = postsRouter;
