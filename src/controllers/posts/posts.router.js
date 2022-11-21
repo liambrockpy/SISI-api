@@ -35,9 +35,9 @@ postsRouter.get('/:id', (req, res) => {
 
 postsRouter.post("/", (req, res) => {
     try {
-        const postData = req.posts
+        const postData = req.body
         const newPost = postsService.create(postData)
-        res.status(201).send(`${newPost} has been created`)
+        res.status(201).send(newPost)
     } catch (error) {
         res.status(404).send({message: error.message});
     }
@@ -48,9 +48,9 @@ postsRouter.post("/", (req, res) => {
 
 postsRouter.post("/:id/comment", (req, res) => {
     try {
-        const comData = req.comments
+        const comData = req.body
         const newComment = postsService.createComment(comData)
-        res.status(201).send(`${newComment} has been created`)
+        res.status(201).send(newComment)
     }
     catch (error) {
         res.status(404).send({message: error.message});
