@@ -43,7 +43,7 @@ postsRouter.post("/", async (req, res) => {
     }
 })
 
-// Pos comment
+// Post comment
 
 postsRouter.post("/:id/comments", async (req, res) => {
     try {
@@ -56,6 +56,8 @@ postsRouter.post("/:id/comments", async (req, res) => {
         res.status(500).send({message: err.message});
     }
 })
+
+// Post emojis
 
 postsRouter.put("/:id/emojis", async (req, res) => {
     try {
