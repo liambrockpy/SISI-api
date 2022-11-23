@@ -55,12 +55,31 @@ const createComment = async (id, comment) => new Promise(async (res, rej) => {
  */
 const updateEmoji = async (id, emoji) => new Promise(async (res, rej) => {
     const selectedPost = await find(id)
-    let incrementedEmoji = ++(selectedPost.emojis[emoji])
 
-    selectedPost.emojis = {
-        ...selectedPost.emojis,
-        [emoji]: incrementedEmoji
+    let newEmojis = { ...selectedPost.emojis }
+
+    switch (emoji) {
+        case 'like':
+            newEmojis.like += 1
+            newEmojis.dislike = Math.max(newEmojis.dislike - 1, 0)
+            newEmojis.surprise = Math.max(newEmojis.surprise - 1, 0)
+            break;
+        case 'dislike':
+            newEmojis.dislike += 1
+            newEmojis.like = Math.max(newEmojis.like - 1, 0)
+            newEmojis.surprise = Math.max(newEmojis.surprise - 1, 0)
+            break;
+        case 'surprise':
+            newEmojis.surprise += 1
+            newEmojis.like = Math.max(newEmojis.like - 1, 0)
+            newEmojis.dislike = Math.max(newEmojis.dislike - 1, 0)
+            break;
+        default:
+            break;
     }
+
+    selectedPost.emojis = newEmojis
+
     const selectedIndex = postsData.posts.findIndex(post => post.postId === id)
     postsData.posts.splice(selectedIndex, 1, selectedPost)
     res(selectedPost)
