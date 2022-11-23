@@ -20,7 +20,7 @@ const create = async (post) => new Promise((res, rej) => {
         ...post,
         postId,
         date: dateNow,
-        comments: null,
+        comments: [],
         emojis: {
             "like": 0,
             "dislike": 0,
@@ -50,42 +50,20 @@ const createComment = async (id, comment) => new Promise(async (res, rej) => {
 /**
  * 
  * @param {string} id 
- * @param {'like' | 'dislike' | 'surprise'} emoji 
- * @param {boolean} updateFlag 
+ * @param {string | {"prev": string, "new": string}} emoji 
+ * @param {boolean} isUpdate 
  * @returns 
  */
-const updateEmoji = async (id, emoji, updateFlag) => new Promise(async (res, rej) => {
+const updateEmoji = async (id, emoji, isUpdate) => new Promise(async (res, rej) => {
     const selectedPost = await find(id)
 
     let newEmojis = { ...selectedPost.emojis }
 
-    if (updateFlag) {
-        switch (emoji) {
-            case 'like':
-                newEmojis.like += 1
-                newEmojis.dislike = Math.max(newEmojis.dislike - 1, 0)
-                newEmojis.surprise = Math.max(newEmojis.surprise - 1, 0)
-                break;
-            case 'dislike':
-                newEmojis.dislike += 1
-                newEmojis.like = Math.max(newEmojis.like - 1, 0)
-                newEmojis.surprise = Math.max(newEmojis.surprise - 1, 0)
-                break;
-            case 'surprise':
-                newEmojis.surprise += 1
-                newEmojis.like = Math.max(newEmojis.like - 1, 0)
-                newEmojis.dislike = Math.max(newEmojis.dislike - 1, 0)
-                break;
-            default:
-                break;
-        }
+    if (isUpdate && typeof emoji === 'object') {
+        newEmojis[emoji.next] += 1
+        newEmojis[emoji.prev] = Math.max(newEmojis[emoji.prev] - 1, 0)
     } else {
-        let incrementedEmojiValue = ++(newEmojis[emoji])
-
-        newEmojis = {
-            ...newEmojis,
-            [emoji]: incrementedEmojiValue
-        }
+        newEmojis[emoji] += 1
     }
 
     selectedPost.emojis = newEmojis

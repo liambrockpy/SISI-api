@@ -60,7 +60,7 @@ describe(`POST ${apiPath}`, () => {
                 expect(res.body["description"]).toEqual(samplePost.description)
                 expect(res.body["labels"].length).toEqual(samplePost.labels.length)
                 expect(res.body["location"].postcode).toEqual(samplePost.location.postcode)
-                expect(res.body["comments"]).toBeNull()
+                expect(res.body["comments"]).toEqual([])
                 expect(res.body["emojis"].like).toBeFalsy()
                 expect(res.body["emojis"].dislike).toBeFalsy()
                 expect(res.body["emojis"].surprise).toBeFalsy()
@@ -84,7 +84,7 @@ describe(`POST ${apiPath}/:id/comments`, () => {
 })
 
 describe(`POST ${apiPath}/:id/emojis`, () => {
-    it('should respond 201 with updated post data and emojis correctly modified after like incremented (for first time)', async () => {
+    it('should respond 201 with updated post data and emojis correctly modified after like clicked (for first time)', async () => {
         await request(app).post(`${apiPath}/efgh/emojis`).send({ "emoji": "like" })
             .expect(201)
             .then(res => {
@@ -98,15 +98,15 @@ describe(`POST ${apiPath}/:id/emojis`, () => {
 })
 
 describe(`PUT ${apiPath}/:id/emojis`, () => {
-    it('should respond 201 with updated post data and emojis correctly modified after surprise incremented', async () => {
-        await request(app).put(`${apiPath}/efgh/emojis`).send({ "emoji": "surprise" })
+    it.skip('should respond 201 with updated post data when changing from like to dislike', async () => {
+        await request(app).put(`${apiPath}/efgh/emojis`).send({ "prev": "like", "next": "dislike" })
             .expect(201)
             .then(res => {
                 expect(res.headers['content-type']).toMatch(/json/)
                 expect(res.body["postId"]).toEqual("efgh")
                 expect(res.body["emojis"].like).toEqual(4)
                 expect(res.body["emojis"].dislike).toEqual(9)
-                expect(res.body["emojis"].surprise).toEqual(21)
+                expect(res.body["emojis"].surprise).toEqual(20)
             })
     })
 })
