@@ -57,11 +57,24 @@ postsRouter.post("/:id/comments", async (req, res) => {
     }
 })
 
+postsRouter.post("/:id/emojis", async (req, res) => {
+    try {
+        const postId = req.params.id;
+        const emojiData = req.body
+        const updatedEmoji = await postsService.updateEmoji(postId, emojiData.emoji, false)
+        res.status(201).send(updatedEmoji)
+    }
+    catch (err) {
+        res.send(500).send({ message: err.message })
+    }
+
+})
+
 postsRouter.put("/:id/emojis", async (req, res) => {
     try {
         const postId = req.params.id;
         const emojiData = req.body
-        const updatedEmoji = await postsService.updateEmoji(postId, emojiData.emoji)
+        const updatedEmoji = await postsService.updateEmoji(postId, emojiData.emoji, true)
         res.status(201).send(updatedEmoji)
     }
     catch (err) {

@@ -17,10 +17,6 @@ const sampleComment = {
     "gif": "unknown data"
 }
 
-const sampleEmoji = {
-    "emoji": "surprise"
-}
-
 describe(`GET ${apiPath}`, () => {
 
     it('should respond 200 with all posts data', async () => {
@@ -87,14 +83,28 @@ describe(`POST ${apiPath}/:id/comments`, () => {
     })
 })
 
-describe(`PUT ${apiPath}/:id/emojis`, () => {
-    it('should respond 201 with updated post data and emojis correctly modified after surprise incremented', async () => {
-        await request(app).put(`${apiPath}/efgh/emojis`).send(sampleEmoji)
+describe(`POST ${apiPath}/:id/emojis`, () => {
+    it('should respond 201 with updated post data and emojis correctly modified after like incremented (for first time)', async () => {
+        await request(app).post(`${apiPath}/efgh/emojis`).send({ "emoji": "like" })
             .expect(201)
             .then(res => {
                 expect(res.headers['content-type']).toMatch(/json/)
                 expect(res.body["postId"]).toEqual("efgh")
-                expect(res.body["emojis"].like).toEqual(3)
+                expect(res.body["emojis"].like).toEqual(5)
+                expect(res.body["emojis"].dislike).toEqual(10)
+                expect(res.body["emojis"].surprise).toEqual(20)
+            })
+    })
+})
+
+describe(`PUT ${apiPath}/:id/emojis`, () => {
+    it('should respond 201 with updated post data and emojis correctly modified after surprise incremented', async () => {
+        await request(app).put(`${apiPath}/efgh/emojis`).send({ "emoji": "surprise" })
+            .expect(201)
+            .then(res => {
+                expect(res.headers['content-type']).toMatch(/json/)
+                expect(res.body["postId"]).toEqual("efgh")
+                expect(res.body["emojis"].like).toEqual(4)
                 expect(res.body["emojis"].dislike).toEqual(9)
                 expect(res.body["emojis"].surprise).toEqual(21)
             })
