@@ -51,31 +51,41 @@ const createComment = async (id, comment) => new Promise(async (res, rej) => {
  * 
  * @param {string} id 
  * @param {'like' | 'dislike' | 'surprise'} emoji 
+ * @param {boolean} updateFlag 
  * @returns 
  */
-const updateEmoji = async (id, emoji) => new Promise(async (res, rej) => {
+const updateEmoji = async (id, emoji, updateFlag) => new Promise(async (res, rej) => {
     const selectedPost = await find(id)
 
     let newEmojis = { ...selectedPost.emojis }
 
-    switch (emoji) {
-        case 'like':
-            newEmojis.like += 1
-            newEmojis.dislike = Math.max(newEmojis.dislike - 1, 0)
-            newEmojis.surprise = Math.max(newEmojis.surprise - 1, 0)
-            break;
-        case 'dislike':
-            newEmojis.dislike += 1
-            newEmojis.like = Math.max(newEmojis.like - 1, 0)
-            newEmojis.surprise = Math.max(newEmojis.surprise - 1, 0)
-            break;
-        case 'surprise':
-            newEmojis.surprise += 1
-            newEmojis.like = Math.max(newEmojis.like - 1, 0)
-            newEmojis.dislike = Math.max(newEmojis.dislike - 1, 0)
-            break;
-        default:
-            break;
+    if (updateFlag) {
+        switch (emoji) {
+            case 'like':
+                newEmojis.like += 1
+                newEmojis.dislike = Math.max(newEmojis.dislike - 1, 0)
+                newEmojis.surprise = Math.max(newEmojis.surprise - 1, 0)
+                break;
+            case 'dislike':
+                newEmojis.dislike += 1
+                newEmojis.like = Math.max(newEmojis.like - 1, 0)
+                newEmojis.surprise = Math.max(newEmojis.surprise - 1, 0)
+                break;
+            case 'surprise':
+                newEmojis.surprise += 1
+                newEmojis.like = Math.max(newEmojis.like - 1, 0)
+                newEmojis.dislike = Math.max(newEmojis.dislike - 1, 0)
+                break;
+            default:
+                break;
+        }
+    } else {
+        let incrementedEmojiValue = ++(newEmojis[emoji])
+
+        newEmojis = {
+            ...newEmojis,
+            [emoji]: incrementedEmojiValue
+        }
     }
 
     selectedPost.emojis = newEmojis
