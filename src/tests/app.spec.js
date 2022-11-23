@@ -88,15 +88,15 @@ describe(`POST ${apiPath}/:id/comments`, () => {
 })
 
 describe(`PUT ${apiPath}/:id/emojis`, () => {
-    it('should respond 201 with updated post data', async () => {
-        await request(app).put(`${apiPath}/abcd/emojis`).send(sampleEmoji)
+    it('should respond 201 with updated post data and emojis correctly modified after surprise incremented', async () => {
+        await request(app).put(`${apiPath}/efgh/emojis`).send(sampleEmoji)
             .expect(201)
             .then(res => {
                 expect(res.headers['content-type']).toMatch(/json/)
-                expect(res.body["postId"]).toEqual("abcd")
-                expect(res.body["emojis"].like).toBeFalsy()
-                expect(res.body["emojis"].dislike).toBeFalsy()
-                expect(res.body["emojis"].surprise).toEqual(1)
+                expect(res.body["postId"]).toEqual("efgh")
+                expect(res.body["emojis"].like).toEqual(3)
+                expect(res.body["emojis"].dislike).toEqual(9)
+                expect(res.body["emojis"].surprise).toEqual(21)
             })
     })
 })
