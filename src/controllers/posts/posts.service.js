@@ -35,6 +35,8 @@ const create = async (post) => new Promise((res, rej) => {
 const createComment = async (id, comment) => new Promise(async (res, rej) => {
     const selectedPost = await find(id)
 
+    if (!selectedPost) rej()
+
     let newComment = {
         ...comment,
         id: uid.uid(),
@@ -56,6 +58,8 @@ const createComment = async (id, comment) => new Promise(async (res, rej) => {
  */
 const updateEmoji = async (id, emoji, isUpdate) => new Promise(async (res, rej) => {
     const selectedPost = await find(id)
+
+    if (!selectedPost) rej()
 
     let newEmojis = { ...selectedPost.emojis }
 
