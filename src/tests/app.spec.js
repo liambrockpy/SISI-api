@@ -1,7 +1,6 @@
 const request = require('supertest')
 const app = require('../app')
 
-const { posts } = require('../../db/posts.json')
 
 const apiPath = '/api/posts'
 
@@ -16,36 +15,6 @@ const sampleComment = {
     "text": "text string",
     "gif": "unknown data"
 }
-
-describe(`GET ${apiPath}`, () => {
-
-    it('should respond 200 with all posts data', async () => {
-        await request(app).get(`${apiPath}`)
-            .expect(200)
-            .then(res => {
-                expect(res.headers['content-type']).toMatch(/json/)
-                expect(res.body).toBeDefined()
-                expect(res.body.length).toEqual(posts.length)
-            })
-    })
-})
-
-describe(`GET ${apiPath}/:id`, () => {
-
-    it('should respond 200 with specific post data', async () => {
-        await request(app).get(`${apiPath}/abcd`)
-            .expect(200)
-            .then(res => {
-                expect(res.headers['content-type']).toMatch(/json/)
-                expect(res.body["postId"]).toEqual("abcd")
-            })
-    })
-
-    it('should respond 404 when data not found', async () => {
-        await request(app).get(`${apiPath}/null`)
-            .expect(404)
-    })
-})
 
 describe(`POST ${apiPath}`, () => {
 
@@ -68,31 +37,63 @@ describe(`POST ${apiPath}`, () => {
     })
 })
 
+describe(`GET ${apiPath}`, () => {
+
+    it('should respond 200 with all posts data', async () => {
+        await request(app).get(`${apiPath}`)
+            .expect(200)
+            .then(res => {
+                expect(res.headers['content-type']).toMatch(/json/)
+                expect(res.body).toBeDefined()
+                expect(res.body.length).toEqual(2)
+            })
+    })
+})
+
+describe(`GET ${apiPath}/:id`, () => {
+
+    it('should respond 200 with specific post data', async () => {
+        await request(app).get(`${apiPath}/4adb8a386f8`)
+            .expect(200)
+            .then(res => {
+                expect(res.headers['content-type']).toMatch(/json/)
+                expect(res.body["postId"]).toEqual("4adb8a386f8")
+            })
+    })
+
+    it('should respond 404 when data not found', async () => {
+        await request(app).get(`${apiPath}/null`)
+            .expect(404)
+    })
+})
+
+
+
 describe(`POST ${apiPath}/:id/comments`, () => {
     it('should respond 201 with updated post data', async () => {
-        await request(app).post(`${apiPath}/abcd/comments`).send(sampleComment)
+        await request(app).post(`${apiPath}/4adb8a386f8/comments`).send(sampleComment)
             .expect(201)
             .then(res => {
                 expect(res.headers['content-type']).toMatch(/json/)
-                expect(res.body["postId"]).toEqual("abcd")
-                expect(res.body["comments"][1].id).toMatch(/[a-z0-9]{11}/i)
-                expect(res.body["comments"][1].date).toBeTruthy()
-                expect(res.body["comments"][1].text).toEqual(sampleComment.text)
-                expect(res.body["comments"][1].gif).toEqual(sampleComment.gif)
+                expect(res.body["postId"]).toEqual("4adb8a386f8")
+                expect(res.body["comments"][2].id).toMatch(/[a-z0-9]{11}/i)
+                expect(res.body["comments"][2].date).toBeTruthy()
+                expect(res.body["comments"][2].text).toEqual(sampleComment.text)
+                expect(res.body["comments"][2].gif).toEqual(sampleComment.gif)
             })
     })
 })
 
 describe(`POST ${apiPath}/:id/emojis`, () => {
     it('should respond 201 with updated post data and emojis correctly modified after like clicked (for first time)', async () => {
-        await request(app).post(`${apiPath}/efgh/emojis`).send({ "emoji": "like" })
+        await request(app).post(`${apiPath}/4adb8a386f8/emojis`).send({ "emoji": "like" })
             .expect(201)
             .then(res => {
                 expect(res.headers['content-type']).toMatch(/json/)
-                expect(res.body["postId"]).toEqual("efgh")
-                expect(res.body["emojis"].like).toEqual(5)
-                expect(res.body["emojis"].dislike).toEqual(10)
-                expect(res.body["emojis"].surprise).toEqual(20)
+                expect(res.body["postId"]).toEqual("4adb8a386f8")
+                expect(res.body["emojis"].like).toEqual(2)
+                expect(res.body["emojis"].dislike).toEqual(1)
+                expect(res.body["emojis"].surprise).toEqual(1)
             })
     })
 })

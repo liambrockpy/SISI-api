@@ -1,6 +1,38 @@
 
 {
     "posts": [
-        
+        {
+            "title": "Winter Wonderland",
+            "description": "xmas theme park",
+            "location": {
+                "postcode": "W1"
+            },
+            "labels": [
+                "Fun",
+                "christmas",
+                "attractions"
+            ],
+            "postId": "4adb8a386f8",
+            "date": "2022-11-24T16:18:14.005Z",
+            "comments": [
+                {
+                    "text": "abc",
+                    "gif": "gif url...",
+                    "id": "adb8a386f86",
+                    "date": "2022-11-24T16:27:47.856Z"
+                },
+                {
+                    "text": "",
+                    "gif": "https://media1.giphy.com/media/b8RfbQFaOs1rO10ren/100.gif?cid=346474e7z6onbi0zgne12abxtw4m3tx5pdpf3o398y0u7q5x&rid=100.gif&ct=g",
+                    "id": "db8a386f86e",
+                    "date": "2022-11-24T16:30:02.182Z"
+                }
+            ],
+            "emojis": {
+                "like": 1,
+                "dislike": 1,
+                "surprise": 1
+            }
+        }
     ]
 }
