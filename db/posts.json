@@ -2,50 +2,36 @@
 {
     "posts": [
         {
-            "postId": "abcd",
-            "date": "2021-10-05T14:48:00.000Z",
-            "title": "Lorem Ipsum",
-            "description": "Officia consectetur non ipsum nostrud dolore duis irure nulla amet in incididunt eu duis laboris. Nisi veniam fugiat minim aliqua aute nulla dolore exercitation. Veniam proident consequat laboris quis voluptate ut voluptate. Sunt ex mollit aliqua anim dolore est culpa ut. Ullamco irure cupidatat elit reprehenderit occaecat. Aute ad veniam cupidatat elit sit laborum velit exercitation. Minim qui laborum excepteur nostrud.",
+            "title": "Winter Wonderland",
+            "description": "xmas theme park",
             "location": {
-                "postcode": "SE15"
+                "postcode": "W1"
             },
+            "labels": [
+                "Fun",
+                "christmas",
+                "attractions"
+            ],
+            "postId": "4adb8a386f8",
+            "date": "2022-11-24T16:18:14.005Z",
             "comments": [
                 {
-                "id": "1",
-                "text": "Occaecat adipisicing proident aute consectetur qui aliquip exercitation.",
-                "date": "2022-10-05T14:48:00.000Z",
-                "gif": "gif url..."
-                }
-            ],
-            "labels": ["food", "cheap", "hidden"],
-            "emojis": {
-                "like": 0,
-                "dislike": 0,
-                "surprise": 0
-            }
-        },
-        {
-            "postId": "efgh",
-            "date": "2022-10-05T14:48:00.000Z",
-            "title": "Lorem Ipsum",
-            "description": "Officia consectetur non ipsum nostrud dolore duis irure nulla amet in incididunt eu duis laboris. Nisi veniam fugiat minim aliqua aute nulla dolore exercitation. Veniam proident consequat laboris quis voluptate ut voluptate. Sunt ex mollit aliqua anim dolore est culpa ut. Ullamco irure cupidatat elit reprehenderit occaecat. Aute ad veniam cupidatat elit sit laborum velit exercitation. Minim qui laborum excepteur nostrud.",
-            "image": "DATA URI - See https://stackoverflow.com/questions/34485420/how-do-you-put-an-image-file-in-a-json-object",
-            "location": {
-                "postcode": "SE15"
-            },
-            "comments": [
+                    "text": "abc",
+                    "gif": "gif url...",
+                    "id": "adb8a386f86",
+                    "date": "2022-11-24T16:27:47.856Z"
+                },
                 {
-                "id": "1",
-                "text": "Occaecat adipisicing proident aute consectetur qui aliquip exercitation.",
-                "date": "2023-10-05T14:48:00.000Z",
-                "gif": "gif url..."
+                    "text": "",
+                    "gif": "https://media1.giphy.com/media/b8RfbQFaOs1rO10ren/100.gif?cid=346474e7z6onbi0zgne12abxtw4m3tx5pdpf3o398y0u7q5x&rid=100.gif&ct=g",
+                    "id": "db8a386f86e",
+                    "date": "2022-11-24T16:30:02.182Z"
                 }
             ],
-            "labels": ["food", "cheap", "hidden"],
             "emojis": {
-                "like": 4,
-                "dislike": 10,
-                "surprise": 20
+                "like": 1,
+                "dislike": 1,
+                "surprise": 1
             }
         }
     ]

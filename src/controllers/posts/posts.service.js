@@ -20,7 +20,7 @@ const create = async (post) => new Promise((res, rej) => {
         ...post,
         postId,
         date: dateNow,
-        comments: null,
+        comments: [],
         emojis: {
             "like": 0,
             "dislike": 0,
@@ -34,6 +34,8 @@ const create = async (post) => new Promise((res, rej) => {
 
 const createComment = async (id, comment) => new Promise(async (res, rej) => {
     const selectedPost = await find(id)
+
+    if (!selectedPost) rej()
 
     let newComment = {
         ...comment,
@@ -50,17 +52,26 @@ const createComment = async (id, comment) => new Promise(async (res, rej) => {
 /**
  * 
  * @param {string} id 
- * @param {'like' | 'dislike' | 'surprise'} emoji 
+ * @param {string | {"prev": string, "new": string}} emoji 
+ * @param {boolean} isUpdate 
  * @returns 
  */
-const updateEmoji = async (id, emoji) => new Promise(async (res, rej) => {
+const updateEmoji = async (id, emoji, isUpdate) => new Promise(async (res, rej) => {
     const selectedPost = await find(id)
-    let incrementedEmoji = ++(selectedPost.emojis[emoji])
 
-    selectedPost.emojis = {
-        ...selectedPost.emojis,
-        [emoji]: incrementedEmoji
+    if (!selectedPost) rej()
+
+    let newEmojis = { ...selectedPost.emojis }
+
+    if (isUpdate && typeof emoji === 'object') {
+        newEmojis[emoji.next] += 1
+        newEmojis[emoji.prev] = Math.max(newEmojis[emoji.prev] - 1, 0)
+    } else {
+        newEmojis[emoji] += 1
     }
+
+    selectedPost.emojis = newEmojis
+
     const selectedIndex = postsData.posts.findIndex(post => post.postId === id)
     postsData.posts.splice(selectedIndex, 1, selectedPost)
     res(selectedPost)

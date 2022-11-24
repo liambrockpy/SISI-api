@@ -57,11 +57,26 @@ postsRouter.post("/:id/comments", async (req, res) => {
     }
 })
 
+postsRouter.post("/:id/emojis", async (req, res) => {
+    try {
+        const postId = req.params.id;
+        const emojiData = req.body
+        const updatedEmoji = await postsService.updateEmoji(postId, emojiData.emoji, false)
+        res.status(201).send(updatedEmoji)
+    }
+    catch (err) {
+        res.send(500).send({ message: err.message })
+    }
+
+})
+
 postsRouter.put("/:id/emojis", async (req, res) => {
     try {
         const postId = req.params.id;
         const emojiData = req.body
-        const updatedEmoji = await postsService.updateEmoji(postId, emojiData.emoji)
+        // ? TODO: implement toggling of emojis using new data type to increment/decrement appropriately
+        // const updatedEmoji = await postsService.updateEmoji(postId, emojiData.emoji, true)
+        const updatedEmoji = await postsService.updateEmoji(postId, emojiData.emoji, false)
         res.status(201).send(updatedEmoji)
     }
     catch (err) {
